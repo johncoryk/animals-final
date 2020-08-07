@@ -4,7 +4,7 @@ const animalsController = {};
 
 animalsController.index = (req, res, next) => {
   Animal.getAll()
-    .then((animals) => {
+    .then(animals => {
       res.render('animals/index', {
         message: 'ok',
         data: { animals },
@@ -15,14 +15,14 @@ animalsController.index = (req, res, next) => {
 
 animalsController.show = (req, res, next) => {
   Animal.getById(req.params.id)
-    .then((animal) => {
+    .then(animal => {
       res.locals.animal = animal;
       next();
     })
     .catch(next);
 };
 
-animalsController.create = (req, res) => {
+animalsController.create = (req, res, next) => {
   new Animal({
     name: req.body.name,
     species: req.body.species,
@@ -31,25 +31,25 @@ animalsController.create = (req, res) => {
   })
     .save()
     .then(() => {
-      res.redirect(`/animals`)
+      res.redirect(`/animals`);
     })
     .catch(next);
 };
 
-animalsController.update = (req, res) => {
+animalsController.update = (req, res, next) => {
   Animal.getById(req.params.id)
-    .then((animal) => {
+    .then(animal => {
       return animal.update(req.body);
     })
-    .then((updatedAnimal) => {
+    .then(updatedAnimal => {
       res.redirect(`/animals/${updatedAnimal.id}`);
     })
     .catch(next);
 };
 
-animalsController.delete = (req, res) => {
+animalsController.delete = (req, res, next) => {
   Animal.getById(req.params.id)
-    .then((animal) => {
+    .then(animal => {
       return animal.delete();
     })
     .then(() => {
