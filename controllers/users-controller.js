@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const User = require('../models/user.js');
+const User = require('../models/User');
 
 const usersController = {
   index(req, res, next) {
@@ -19,8 +19,8 @@ const usersController = {
       password_digest: hash,
     })
       .save()
-      .then((user) => {
-        req.login(user, (err) => {
+      .then(user => {
+        req.login(user, err => {
           if (err) return next(err);
           res.redirect('/user');
         });
